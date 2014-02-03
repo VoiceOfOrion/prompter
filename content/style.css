@@ -1,0 +1,15 @@
+body {
+    background-color: black;
+}
+
+.text-container {
+    font-size: 20pt;
+    border: 1px solid red;
+    overflow: hidden;
+    color: white;
+    width:800px;
+    height: 400px;
+    -moz-transform: scaleY(-1);
+    -webkit-transform: scaleY(-1);
+    -ms-transform: scaleY(-1);
+}
