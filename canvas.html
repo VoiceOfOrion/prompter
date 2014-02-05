@@ -23,9 +23,10 @@
 //                })();
 //            }
 
-            var canvas, context, xPos, yPos, endYPos, text, change;
+            var canvas, context, xPos, yPos, endYPos, text, change, txtLines = [];
 
             init();
+            txtLines = wrapText(text, xPos, yPos, 750, 15);
             animate();
 
             function init() {
@@ -75,7 +76,9 @@
 // B5. DRAW circle.
                 //context.beginPath();
                 //context.fillText(text, xPos, yPos);
-                printAtWordWrap(context, text, xPos, yPos, 15, 700);
+                for(var n = 0; n < txtLines.length; n++) {
+                    context.fillText(txtLines[n].text, txtLines[n].x, txtLines[n].y + yPos);
+                }
                 //context.stroke();
             }
 
@@ -111,6 +114,32 @@
                 }
                 if  (idx > 0)
                     context.fillText( words.join(' '), x, y + (lineHeight*currentLine) );
+            }
+
+
+
+
+            function wrapText(text, x, y, maxWidth, lineHeight) {
+                var words = text.split(' ');
+                var line = '';
+                var lines = [];
+
+                for(var n = 0; n < words.length; n++) {
+                    var testLine = line + words[n] + ' ';
+                    var metrics = context.measureText(testLine);
+                    var testWidth = metrics.width;
+                    if (testWidth > maxWidth && n > 0) {
+                        lines.push({text : line, x:x, y:y});
+                        line = words[n] + ' ';
+                        y += lineHeight;
+                    }
+                    else {
+                        line = testLine;
+                    }
+                }
+                lines.push({text : line, x:x, y:y});
+
+                return lines;
             }
         }
         </script>
